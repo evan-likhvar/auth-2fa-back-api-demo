@@ -16,6 +16,23 @@
 
                     {{ __('You are logged in!') }}
                 </div>
+
+                @role('admin')
+                <p>This is visible to users with the admin role. Gets translated to
+                    \Laratrust::hasRole('admin')</p>
+                @endrole
+
+                @role('sub admin')
+                <p>This is visible to users with the admin role. Gets translated to
+                    \Laratrust::hasRole('sub admin')</p>
+                @endrole
+
+                @role('site user')
+                <p>This is visible to users with the admin role. Gets translated to
+                    \Laratrust::hasRole('site user')</p>
+                @endrole
+
+
             </div>
         </div>
     </div>
