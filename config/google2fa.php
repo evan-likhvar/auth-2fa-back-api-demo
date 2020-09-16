@@ -33,7 +33,7 @@ return [
     /*
      * One Time Password request input name.
      */
-    'otp_input' => 'one_time_password',
+    'otp_input' => '2fa_code',
 
     /*
      * One Time Password Window.
@@ -53,7 +53,7 @@ return [
     /*
      * One Time Password View.
      */
-    'view' => 'google2fa.index',
+    'view' => 'auth.google2fa-verify',
 
     /*
      * One Time Password error message.
@@ -76,4 +76,5 @@ return [
      */
     'qrcode_image_backend' => \PragmaRX\Google2FALaravel\Support\Constants::QRCODE_IMAGE_BACKEND_SVG,
 
+    'company' => 'sklad'
 ];

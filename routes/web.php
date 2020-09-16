@@ -12,3 +12,8 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')
     ->middleware(['auth', '2fa', 'verified'])->name('home');
 
+
+Route::get('/2fa/activate', 'ProfileSettings@show2faActivate')->name('profile.2fa.activate.show');
+Route::post('/2fa/activate', 'ProfileSettings@enable2fa')->name('profile.2fa.activate');
+Route::post('/2fa/verify', 'ProfileGoogle2FAController@verify')->name('profile.2fa.verify')->middleware('2fa');
+Route::post('/2fa/disable_2fa', 'ProfileSettings@disable2fa')->name('profile.2fa.disable')->middleware('2fa');
