@@ -12,20 +12,20 @@ class CreateUserParamsTable extends Migration
         Schema::create('user_params', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
-            $table->string('username');
-            $table->string('username_canonical');
-            $table->string('email')->unique();
-            $table->string('email_canonical')->unique();
-            $table->tinyInteger('enabled');
-            $table->string('salt');
-            $table->string('password');
-            $table->timestamp('last_login')->nullable();
-            $table->tinyInteger('locked');
-            $table->tinyInteger('expired');
+       //     $table->string('username');
+            $table->string('username_canonical')->nullable();
+         //   $table->string('email')->unique();
+            $table->string('email_canonical')->unique()->nullable();
+            $table->tinyInteger('enabled')->nullable();
+     //       $table->string('salt');
+     //       $table->string('password');
+            //$table->timestamp('last_login')->nullable();
+            $table->tinyInteger('locked')->nullable();
+            $table->tinyInteger('expired')->nullable();
             $table->timestamp('expires_at')->nullable();
-            $table->string('confirmation_token')->nullable();
-            $table->timestamp('password_requested_at')->nullable();
-            $table->integer('send_approve_mail')->nullable();
+      //      $table->string('confirmation_token')->nullable();
+     //       $table->timestamp('password_requested_at')->nullable();
+    //        $table->integer('send_approve_mail')->nullable();
             $table->string('nickname', 512)->nullable();
             $table->string('first_name', 512)->nullable();
             $table->string('last_name', 512)->nullable();
@@ -46,41 +46,41 @@ class CreateUserParamsTable extends Migration
             $table->longText('document_issued_by')->nullable();
             $table->integer('document_type')->nullable();
             $table->double('balance')->nullable();
-            $table->tinyInteger('confirmed')->nullable();
-            $table->longText('permission_string')->nullable();
+       //     $table->tinyInteger('confirmed')->nullable();
+   //         $table->longText('permission_string')->nullable();
             $table->integer('up_id')->nullable();
             $table->integer('interest_rate')->default(-1);
 
-            $table->bigInteger('parent_user')
-                ->unsigned()
-                ->nullable()
-                ->index();
+//            $table->bigInteger('parent_user')
+//                ->unsigned()
+//                ->nullable()
+//                ->index();
 
-            $table->foreign('parent_user')
-                ->references('id')
-                ->on('user_params')
-                ->onDelete('SET NULL');
+//            $table->foreign('parent_user')
+//                ->references('id')
+//                ->on('user_params')
+//                ->onDelete('SET NULL');
 
-            $table->string('partner_code')->nullable();
+//            $table->string('partner_code')->nullable();
+//
+//            $table->tinyInteger('added_bonus')
+//                ->nullable()
+//                ->default(0);
+//
+//            $table->double('parent_bonus')
+//                ->nullable()
+//                ->default(0);
 
-            $table->tinyInteger('added_bonus')
-                ->nullable()
-                ->default(0);
-
-            $table->double('parent_bonus')
-                ->nullable()
-                ->default(0);
-
-            $table->integer('count_visit')
-                ->nullable()
-                ->default(0);
-
-            $table->double('all_balance')
-                ->nullable()
-                ->default(0);
-
-            $table->double('degree_customers')
-                ->nullable();
+//            $table->integer('count_visit')
+//                ->nullable()
+//                ->default(0);
+//
+//            $table->double('all_balance')
+//                ->nullable()
+//                ->default(0);
+//
+//            $table->double('degree_customers')
+//                ->nullable();
 
             $table->longText('logo_invoice')->nullable();
 
@@ -116,9 +116,9 @@ class CreateUserParamsTable extends Migration
 
             $table->double('bonus_balance')->nullable();
 
-            $table->tinyInteger('vip')
-                ->nullable()
-                ->default(0);
+//            $table->tinyInteger('vip')
+//                ->nullable()
+//                ->default(0);
 
             $table->tinyInteger('allow_dhl')
                 ->nullable()
@@ -129,15 +129,15 @@ class CreateUserParamsTable extends Migration
             $table->longText('shop_name')->nullable();
             $table->longText('shop_description')->nullable();
 
-            $table->bigInteger('parent_user_id')
-                ->unsigned()
-                ->nullable()
-                ->index();
+//            $table->bigInteger('parent_user_id')
+//                ->unsigned()
+//                ->nullable()
+//                ->index();
 
-            $table->foreign('parent_user_id')
-                ->references('id')
-                ->on('user_params')
-                ->onDelete('SET NULL');
+//            $table->foreign('parent_user_id')
+//                ->references('id')
+//                ->on('user_params')
+//                ->onDelete('SET NULL');
 
             $table->double('sklad_fee')
                 ->nullable()

@@ -24,12 +24,24 @@ class UsersSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
+        DB::table('user_params')->insert([
+            'user_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
         DB::table('users')->insert([
             'id' => 2,
             'name' => 'test.subAdmin',
             'email' => 'test.subAdmin@gmail.com',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('test.subAdmin@gmail.com'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('user_params')->insert([
+            'user_id' => 2,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -43,5 +55,13 @@ class UsersSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+
+
+        DB::table('user_params')->insert([
+            'user_id' => 3,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
     }
 }
