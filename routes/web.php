@@ -9,6 +9,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', 'HomeController@index')
+    ->middleware(['auth', '2fa', 'verified'])->name('home');
 
-
-Route::get('/home', 'HomeController@index')->middleware('verified')->name('home');
