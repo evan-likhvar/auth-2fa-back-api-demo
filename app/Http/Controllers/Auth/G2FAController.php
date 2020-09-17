@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
@@ -9,8 +10,19 @@ use BaconQrCode\Writer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProfileSettings extends Controller
+class G2FAController extends Controller
 {
+    public function verify()
+    {
+        if (!strpos(URL()->previous(), 'profile/2fa/verify')) {
+            session(['url.intended' => url()->previous()]);
+        }
+
+        return redirect()->intended('/profile');
+        //return redirect(session('url.intended') ?? '/profile');
+        //return redirect(URL()->previous());
+    }
+
     public function show2faActivate()
     {
 

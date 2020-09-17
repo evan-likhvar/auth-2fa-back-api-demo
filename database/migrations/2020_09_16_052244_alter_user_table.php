@@ -17,8 +17,8 @@ class AlterUserTable extends Migration
             $table->unsignedBigInteger('parent_id')->index()->nullable()->after('id');
             $table->boolean('is_vip')->nullable()->default(0)->after('email');
             $table->timestamp('last_login')->nullable()->after('is_vip');
-            $table->tinyInteger('sms_verify')->nullable()->default(0);
-            $table->string('sms_verify_code')->nullable();
+            $table->tinyInteger('google2fa_enable')->nullable()->default(0);
+            $table->string('google2fa_secret')->nullable();
         });
     }
 

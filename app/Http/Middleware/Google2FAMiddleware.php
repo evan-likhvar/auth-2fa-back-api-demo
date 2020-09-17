@@ -18,17 +18,12 @@ class Google2FAMiddleware
     public function handle($request, Closure $next)
     {
         $input = $request->all();
-
-
         if (array_key_exists('2fa_code',$input) && empty($input['2fa_code'])) {
             $input['2fa_code'] = '111111';
         }
         $request->replace($input);
 
-
-
         $authentication = app(Google2FAAuthenticator::class)->boot($request);
-        //dd($authentication->isAuthenticated());
 
         if ($authentication->isAuthenticated()) {
             return $next($request);
