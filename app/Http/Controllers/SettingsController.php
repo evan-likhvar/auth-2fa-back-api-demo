@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SettingsStoreRequest;
+use App\Http\Requests\SettingsUpdateRequest;
 use App\Models\Settings;
-use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
@@ -14,72 +15,59 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Settings::with('valueType')->get());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SettingsStoreRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(SettingsStoreRequest $request)
     {
-        //
+        $setting = Settings::create($request->all());
+        return response()->json($setting->load('valueType'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Settings  $settings
-     * @return \Illuminate\Http\Response
+     * @param Settings $setting
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Settings $settings)
+    public function show(Settings $setting)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Settings  $settings
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Settings $settings)
-    {
-        //
+        return response()->json($setting->load('valueType'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Settings  $settings
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Settings $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Settings $settings)
+    public function update(SettingsUpdateRequest $request, Settings $setting)
     {
-        //
+        $sameSetting = $setting::where('name', '=', $request->input('name'))->whereKeyNot($setting->id)->exists();
+        if ($sameSetting) {
+            return response()->json(['errors' => ['name' => __('validation.unique',['attribute'=> 'name'])]], 422);
+        }
+        $setting->update($request->all());
+
+        return response()->json($setting->refresh()->load('valueType'));
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Settings  $settings
-     * @return \Illuminate\Http\Response
+     * @param Settings $setting
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy(Settings $settings)
+    public function destroy(Settings $setting)
     {
-        //
+        if (!$setting->delete()) return response(null, 204);
     }
 }

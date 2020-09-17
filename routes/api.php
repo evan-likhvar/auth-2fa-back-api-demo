@@ -31,7 +31,13 @@ Route::prefix('localization')->group(function () {
     Route::delete('/{key}', 'LocalizationController@destroy')->name('admin.localization.delete');
 });
 
-//TODO REDEVELOP MODULE STRUCTURE
+Route::get('settings', 'SettingsController@index');
+Route::post('settings/store', 'SettingsController@store');
+Route::get('settings/{setting}/show', 'SettingsController@show');
+Route::put('settings/{setting}/update', 'SettingsController@update');
+Route::delete('settings/{setting}/remove', 'SettingsController@destroy');
+
+//TODO REDEVELOP REGISTERING ROUTES FOR FUTURE MODULES
 //
 //$modules = config('modular.modules');
 //$path = config('modular.path');

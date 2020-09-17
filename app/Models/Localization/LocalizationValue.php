@@ -4,6 +4,15 @@ namespace App\Models\Localization;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Localization\LocalizationValue
+ *
+ * @property-read \App\Models\Localization\LocalizationKey $key
+ * @method static \Illuminate\Database\Eloquent\Builder|LocalizationValue newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LocalizationValue newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LocalizationValue query()
+ * @mixin \Eloquent
+ */
 class LocalizationValue extends Model
 {
     /**
