@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\HeadersMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -21,6 +22,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\CheckSetApiLocalization::class,
     ];
 
     /**
@@ -41,7 +43,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class
         ],
     ];
 
@@ -65,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         '2fa' => \App\Http\Middleware\Google2FAMiddleware::class,
 
+        'api.responseHeaders' => HeadersMiddleware::class,
     ];
 }

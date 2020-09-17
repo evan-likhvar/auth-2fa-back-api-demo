@@ -1,5 +1,7 @@
 <?php
 
+use Database\Seeders\SettingsSeeder;
+use Database\Seeders\ValueTypeSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +18,8 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             RolesSeeder::class,
             PermissionsSeeder::class,
-
-    ]);
+            ValueTypeSeeder::class,
+            SettingsSeeder::class
+        ]);
     }
 }
