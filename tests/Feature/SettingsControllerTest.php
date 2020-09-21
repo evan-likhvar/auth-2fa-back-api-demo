@@ -9,9 +9,10 @@ class SettingsControllerTest extends TestCase
 {
     public function testSettingsIndex()
     {
-        $response = $this->getJson('/api/settings');
+        $response = $this->getJson('/rest-api/settings');
 
         $content = json_decode($response->getContent());
+
         $response->assertStatus(200);
         $this->assertIsArray($content);
     }
@@ -26,8 +27,9 @@ class SettingsControllerTest extends TestCase
             "description" => "Test Description",
         ];
 
-        $response = $this->postJson('/api/settings/store', $data);
+        $response = $this->postJson('/rest-api/settings/store', $data);
         $content = json_decode($response->getContent());
+
         $response->assertStatus(200);
         $this->assertIsObject($content);
     }
@@ -42,7 +44,7 @@ class SettingsControllerTest extends TestCase
             "description" => "Test Description",
 
         ];
-        $response = $this->putJson('/api/settings/1/update', $data);
+        $response = $this->putJson('/rest-api/settings/1/update', $data);
         $content = json_decode($response->getContent());
         $response->assertStatus(200);
         $this->assertIsObject($content);
@@ -50,7 +52,7 @@ class SettingsControllerTest extends TestCase
 
     public function testSettingShow()
     {
-        $response = $this->getJson('/api/settings/1/show');
+        $response = $this->getJson('/rest-api/settings/1/show');
         $content = json_decode($response->getContent());
         $response->assertStatus(200);
         $this->assertIsObject($content);

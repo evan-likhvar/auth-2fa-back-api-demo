@@ -15,11 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UserSeeder::class);
         $this->call([
+            \Database\Seeders\LanguagesSeeder::class,
             UsersSeeder::class,
             RolesSeeder::class,
             PermissionsSeeder::class,
             ValueTypeSeeder::class,
-            SettingsSeeder::class
+            SettingsSeeder::class,
         ]);
     }
 }

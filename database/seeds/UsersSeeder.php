@@ -16,6 +16,7 @@ class UsersSeeder extends Seeder
     {
         DB::table('users')->insert([
             'id' => 1,
+            'language_id' => 1,
             'name' => 'test.admin',
             'email' => 'test.admin@gmail.com',
             'email_verified_at' => Carbon::now(),
@@ -32,6 +33,7 @@ class UsersSeeder extends Seeder
 
         DB::table('users')->insert([
             'id' => 2,
+            'language_id' => 1,
             'name' => 'test.subAdmin',
             'email' => 'test.subAdmin@gmail.com',
             'email_verified_at' => Carbon::now(),
@@ -48,6 +50,7 @@ class UsersSeeder extends Seeder
 
         DB::table('users')->insert([
             'id' => 3,
+            'language_id' => 1,
             'name' => 'test.user',
             'email' => 'test.user@gmail.com',
             'email_verified_at' => Carbon::now(),
