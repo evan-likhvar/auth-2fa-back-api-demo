@@ -12,10 +12,12 @@ class CreateUserParamsTable extends Migration
         Schema::create('user_params', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
-       //     $table->string('username');
-            $table->string('username_canonical')->nullable();
+            $table->string('google_reset_codes', 256)->nullable();
+
+            //     $table->string('username');
+        //    $table->string('username_canonical')->nullable();
          //   $table->string('email')->unique();
-            $table->string('email_canonical')->unique()->nullable();
+      //      $table->string('email_canonical')->unique()->nullable();
             $table->tinyInteger('enabled')->nullable();
      //       $table->string('salt');
      //       $table->string('password');
@@ -26,9 +28,9 @@ class CreateUserParamsTable extends Migration
       //      $table->string('confirmation_token')->nullable();
      //       $table->timestamp('password_requested_at')->nullable();
     //        $table->integer('send_approve_mail')->nullable();
-            $table->string('nickname', 512)->nullable();
-            $table->string('first_name', 512)->nullable();
-            $table->string('last_name', 512)->nullable();
+    //        $table->string('nickname', 512)->nullable();
+     //       $table->string('first_name', 512)->nullable();
+    //        $table->string('last_name', 512)->nullable();
             $table->date('birthday')->nullable();
             $table->longText('about')->nullable();
             $table->string('skype', 512)->nullable();
@@ -203,8 +205,7 @@ class CreateUserParamsTable extends Migration
                 ->nullable()
                 ->default(0);
 
-            $table->string('google_authenticator_code', 16)->nullable();
-            $table->string('google_reset_codes', 256)->nullable();
+            //$table->string('google_authenticator_code', 16)->nullable();
 
             $table->tinyInteger('use_easypost')
                 ->nullable()
