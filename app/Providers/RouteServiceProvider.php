@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        $this->mapAuthRoutes();
     }
 
     /**
@@ -76,5 +76,13 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware(['api','api.responseHeaders'])
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+    protected function mapAuthRoutes()
+    {
+        Route::prefix('rest-api')
+            ->middleware(['api'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/auth.php'));
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
+use Laravel\Passport\HasApiTokens;
 
 /**
  * App\Models\User
@@ -55,6 +56,7 @@ use Laratrust\Traits\LaratrustUserTrait;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use HasApiTokens;
     use LaratrustUserTrait;
     use Notifiable;
 
