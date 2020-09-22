@@ -53,8 +53,15 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:4'],
+            'address' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'region' => ['required', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:255'],
+            'postal_code' => ['required', 'string', 'max:255'],
         ]);
     }
 
@@ -69,10 +76,19 @@ class RegisterController extends Controller
         return DB::transaction(function () use ($data) {
             $user = User::create([
                 'name' => $data['name'],
+                'last_name' => $data['last_name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
             ]);
-            UserParam::create(['user_id' => $user->id]);
+            UserParam::create([
+                'user_id' => $user->id,
+                'address' => $data['address'],
+                'city' => $data['city'],
+                'region' => $data['region'],
+                'country' => $data['country'],
+                'postal_code' => $data['postal_code'],
+                'phone' => $data['phone'],
+            ]);
 
             return $user;
         });

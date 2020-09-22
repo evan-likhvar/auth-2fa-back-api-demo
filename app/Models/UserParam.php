@@ -213,5 +213,13 @@ class UserParam extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id'];
+    protected $fillable = [
+        'user_id',
+        'phone',
+        'address',
+        'city',
+        'region',
+        'country',
+        'postal_code',
+        ];
 }
