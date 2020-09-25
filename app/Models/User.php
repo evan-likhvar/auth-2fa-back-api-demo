@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetUserPassword;
 use App\Notifications\VerifyUserEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -98,4 +99,14 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifyUserEmail);
     }
 
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetUserPassword($token));
+    }
 }
