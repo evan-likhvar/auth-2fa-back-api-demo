@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\UserParam;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -62,6 +65,7 @@ class RegisterController extends Controller
             'region' => ['required', 'string', 'max:255'],
             'country' => ['required', 'string', 'max:255'],
             'postal_code' => ['required', 'string', 'max:255'],
+            'terms' => ['required', 'string', 'max:1', 'in:1'],
         ]);
     }
 
@@ -93,4 +97,30 @@ class RegisterController extends Controller
             return $user;
         });
     }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return response()->json('Registered. Check mail.');
+
+//        $this->guard()->login($user);
+//
+//        if ($response = $this->registered($request, $user)) {
+//            return $response;
+//        }
+//
+//        return $request->wantsJson()
+//            ? new JsonResponse([], 201)
+//            : redirect($this->redirectPath());
+    }
+
 }
