@@ -3,8 +3,8 @@
 namespace App\Modules\v1\Settings\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SettingsStoreRequest;
-use App\Http\Requests\SettingsUpdateRequest;
+use App\Modules\v1\Settings\Http\Requests\SettingsStoreRequest;
+use App\Modules\v1\Settings\Http\Requests\SettingsUpdateRequest;
 use App\Modules\v1\Settings\Models\Settings;
 
 class SettingsController extends Controller

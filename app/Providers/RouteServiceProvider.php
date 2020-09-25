@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use components\ModularComponent;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App';
+    protected $namespace = 'App\Http\Controllers';
 
     /**
      * The path to the "home" route for your application.
@@ -22,6 +23,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
+
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -46,7 +48,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        $this->mapModuleRoutes();
+        $this->mapModuleRoutes(); // register modules routes
     }
 
     /**
@@ -85,9 +87,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapModuleRoutes()
     {
-        Route::prefix('v1')
+        $modular = new ModularComponent();
+
+        Route::prefix($modular::MODULE_VERSION)
             ->middleware(['api', 'api.responseHeaders'])
-            ->namespace($this->namespace)
-            ->group(base_path('routes/modules.php'));
+            ->namespace($modular::CONTROLLER_NAMESPACE)
+            ->group(function () use ($modular) {
+                $modular->registerRoutes();
+            });
     }
 }

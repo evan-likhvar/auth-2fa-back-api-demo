@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class ModuleMake extends Command
@@ -16,17 +17,22 @@ class ModuleMake extends Command
      */
     protected $signature = 'make:module {name}
                                         {--all : All items}
-                                        {--migration : Only migrate}
+                                        {--migration : Only migrate file}
                                         {--view : Only view}
-                                        {--model : Only view}
-                                            ';
+                                        {--model : Only Model}                           
+                                        ';
 
+//{--controller : Only view}
+//{--repository : Only view}
+//{--mail : Only view}
+//{--request : Only view}
+//{--test : Only view}
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Make module';
 
     /**
      * Create a new command instance.
@@ -50,7 +56,7 @@ class ModuleMake extends Command
     {
         if ($this->option('all')) {
             $this->input->setOption('migration', true);
-            $this->input->setOption('migration', true);
+            $this->input->setOption('view', true);
             $this->input->setOption('model', true);
         }
 
@@ -67,14 +73,45 @@ class ModuleMake extends Command
         }
     }
 
+    /**
+     * Example - php artisan make:module ModuleName\ModelName --model
+     */
     private function createModel()
     {
-        //TODO CREATE MODEL
+        try {
+            $nameArgument = trim($this->argument('name'));
+            $model = Str::singular(class_basename($nameArgument)); // Якщо Blogs то Blog
+
+            $argumentChunks = explode('\\', $nameArgument);
+            if (count($argumentChunks) > 1) {
+                array_pop($argumentChunks);
+                $nameArgument = implode('\\', $argumentChunks);
+            }
+
+            $this->call('make:model', [
+                'name' => "App\\Modules\\v1\\{$nameArgument}\\Models\\{$model}"
+            ]);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
     }
 
     private function createMigration()
     {
-        //TODO CREATE MIGRATION
+
+        $table = Str::snake(class_basename($this->argument('name')));
+        $table = Str::plural($table);
+        dd($this->argument('name'));
+
+        try {
+            $this->call('make:migration', [
+                'name' => "create_{$table}_table",
+                '--create' => $table,
+                '--path' => 'App\\Modules\\v1\\'.$table
+            ]);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
     }
 
     private function createView()
