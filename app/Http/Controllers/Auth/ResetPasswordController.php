@@ -38,6 +38,8 @@ class ResetPasswordController extends Controller
      */
     public function reset(Request $request)
     {
+
+        //dd($request->all());
         $request->validate($this->rules(), $this->validationErrorMessages());
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -52,9 +54,10 @@ class ResetPasswordController extends Controller
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
-        return $response == Password::PASSWORD_RESET
-            ? $this->sendResetResponse($request, $response)
-            : $this->sendResetFailedResponse($request, $response);
+
+        $status = $response == Password::PASSWORD_RESET ? 200 : 422;
+
+        return response()->json($response, $status);
     }
 
     /**
@@ -66,8 +69,22 @@ class ResetPasswordController extends Controller
     protected function credentials(Request $request)
     {
         return $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email', 'password', 'token'
         );
+    }
+
+    /**
+     * Get the password reset validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ];
     }
 
 }
