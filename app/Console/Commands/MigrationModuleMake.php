@@ -15,9 +15,9 @@ class MigrationModuleMake extends Command
      *
      * @var string
      */
-    protected $signature = 'make:module-migration 
-                                        {module : Module name} 
-                                        {migrationName : Migration file name} 
+    protected $signature = 'make:module-migration
+                                        {module : Module name}
+                                        {migrationName : Migration file name}
                                         {table : Table name}
                                         ';
 
@@ -51,7 +51,7 @@ class MigrationModuleMake extends Command
     private function createMigration()
     {
         $moduleName = trim($this->argument('module'));
-        $migrationPath = "app\Modules\\v1\\{$moduleName}\\migrations\\";
+        $migrationPath = "app/Modules/v1/{$moduleName}/migrations";
 
         $table = Str::snake(class_basename($this->argument('table')));
         $table = Str::plural($table);
