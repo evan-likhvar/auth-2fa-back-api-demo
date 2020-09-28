@@ -2,33 +2,52 @@
 
 namespace App\Http\Middleware;
 
-use App\Repositories\Google\Google2FAAuthenticator;
+use App\Models\User;
 use Closure;
+use Hash;
+use Illuminate\Http\JsonResponse as IlluminateJsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class Google2FAMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        $input = $request->all();
-        if (array_key_exists('2fa_code',$input) && empty($input['2fa_code'])) {
-            $input['2fa_code'] = '111111';
-        }
-        $request->replace($input);
+        /** @var User $user */
+        $user = $request->user();
 
-        $authentication = app(Google2FAAuthenticator::class)->boot($request);
+        // по 2аф роутам юзеры ВСЕГДА должны быть авторизированными
+        if (empty($user))
+            return new IlluminateJsonResponse('Non authenticate request', 403);
 
-        if ($authentication->isAuthenticated()) {
+        // пользователь не включил 2fa, пробрасываем без проверки
+        if (!$user->google2fa_enable)
             return $next($request);
-        }
 
-        return $authentication->makeRequestOneTimePasswordResponse();
+        $token2f = $request->headers->get('usersecret', '');
+        if (empty($token2f))
+            return new IlluminateJsonResponse('Wrong token', 403);
+
+        // проверяем время от последнего 2фа логина
+        if (
+            !$user->google2fa_login_at
+            || Carbon::createFromFormat(
+                'Y-m-d H:i:s',
+                $user->google2fa_login_at
+            )->addMinutes(config('param.2fa_login_time_out')) < Carbon::now())
+            return new IlluminateJsonResponse('2fa login expired', 401);
+
+        // проверяем токен
+        if (!Hash::check($token2f, $user->google2fa_login_otp))
+            return new IlluminateJsonResponse('Invalid credentials', 401);
+
+        return $next($request);
     }
 }
