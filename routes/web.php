@@ -3,14 +3,15 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes(['verify' => true]);
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', 'HomeController@index')
-    ->middleware(['auth', '2fa', 'verified'])->name('home');
+//Auth::routes(['verify' => true]);
+Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+//
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//
+//Route::get('/home', 'HomeController@index')
+//    ->middleware(['auth', '2fa', 'verified'])->name('home');
 
 
 Route::get('/2fa/activate', 'Auth\G2FAController@show2faActivate')->name('profile.2fa.activate.show');
