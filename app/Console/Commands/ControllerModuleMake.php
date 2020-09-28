@@ -2,17 +2,23 @@
 
 namespace App\Console\Commands;
 
+use components\ModularComponent;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Str;
+use Illuminate\Support\Str;
 
 /**
  * Class ControllerModuleMake
  * @package App\Console\Commands
+ *
+ * @property Filesystem $files
+ * @property ModularComponent $modularComponent
  */
 class ControllerModuleMake extends Command
 {
     protected $files;
+
+    protected $modularComponent;
 
     /**
      * The name and signature of the console command.
@@ -31,12 +37,15 @@ class ControllerModuleMake extends Command
     /**
      * Create a new command instance.
      *
-     * @return void
+     * ControllerModuleMake constructor.
+     * @param Filesystem $files
+     * @param ModularComponent $modularComponent
      */
-    public function __construct(Filesystem $files)
+    public function __construct(Filesystem $files, ModularComponent $modularComponent)
     {
         parent::__construct();
         $this->files = $files;
+        $this->modularComponent = $modularComponent;
     }
 
     /**
@@ -102,10 +111,10 @@ class ControllerModuleMake extends Command
                     'DummyModelVariable'
                 ],
                 [
-                    "App\\Modules\\v1\\{$module}\\Http\\Controllers",
+                    "{$this->modularComponent->baseNamespace}\\{$module}\\Http\\Controllers",
                     $this->laravel->getNamespace(),
                     $controller,
-                    "App\\Modules\\v1\\{$module}\\Models\\{$model}",
+                    "{$this->modularComponent->baseNamespace}\\{$module}\\Models\\{$model}",
                     $model,
                     lcfirst($model)
                 ],
@@ -117,7 +126,7 @@ class ControllerModuleMake extends Command
             $stub = str_replace(
                 ['DummyNamespace', 'DummyClass'],
                 [
-                    "App\\Modules\\v1\\{$module}\\Http\\Controllers",
+                    "{$this->modularComponent->baseNamespace}\\{$module}\\Http\\Controllers",
                     $controller,
                 ],
                 $stub
@@ -138,7 +147,7 @@ class ControllerModuleMake extends Command
             $model = $this->getModel();
 
             $this->call('make:model', [
-                'name' => "App\\Modules\\v1\\{$module}\\Models\\{$model}"
+                'name' => "{$this->modularComponent->baseNamespace}\\{$module}\\Models\\{$model}"
             ]);
         } catch (\Exception $e) {
             $e->getMessage();
@@ -173,7 +182,7 @@ class ControllerModuleMake extends Command
      */
     private function getControllerPath($module, $controller)
     {
-        return $this->laravel['path'] . "/Modules/v1/{$module}/Http/Controllers/{$controller}.php";
+        return $this->laravel['path'] . "/Modules/" . $this->modularComponent::MODULE_VERSION . "/{$module}/Http/Controllers/{$controller}.php";
     }
 
 }

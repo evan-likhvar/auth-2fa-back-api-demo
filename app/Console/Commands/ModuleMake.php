@@ -35,11 +35,12 @@ class ModuleMake extends Command
      */
     protected $signature = 'make:module {name : module name} {resourceName? : Resource file name}
                                         {--all : All items}
-                                        {--model : Only Model}                           
+                                        {--model : Only Model}
                                         {--migration : Only migrate file}
                                         {--controller : Only Controller}
                                         {--request : Only request}
                                         {--seed : Only Seed}
+                                        {--resource : Only collection resource}
                                         ';
 
 //{--view : Only view}
@@ -89,6 +90,7 @@ class ModuleMake extends Command
             $this->input->setOption('controller', true);
             $this->input->setOption('request', true);
             $this->input->setOption('seed', true);
+            $this->input->setOption('resource', true);
         }
 
 
@@ -127,7 +129,19 @@ class ModuleMake extends Command
             $this->createSeed();
         }
 
-        $this->files->makeDirectory($this->laravel['path'] . "/Modules/v1/{$this->moduleName}", 0777, true, true);
+        if ($this->option('resource')) {
+            if (!$this->checkResourceParam()) {
+                return false;
+            }
+            $this->createResource();
+        }
+
+        $this->files->makeDirectory(
+            $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$this->moduleName}",
+            0777,
+            true,
+            true
+        );
 
         return true;
     }
@@ -141,7 +155,7 @@ class ModuleMake extends Command
             $model = ucfirst(Str::camel($this->resourceName));
 
             $this->call('make:model', [
-                'name' => "App\\Modules\\v1\\{$this->moduleName}\\Models\\{$model}"
+                'name' => "{$this->moduleComponent->baseNamespace}\\{$this->moduleName}\\Models\\{$model}"
             ]);
 
         } catch (\Exception $e) {
@@ -210,6 +224,22 @@ class ModuleMake extends Command
             return $this->call('make:module-seed', [
                 'module' => $this->moduleName,
                 'name' => "{$this->resourceName}Seeder",
+            ]);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
+    }
+
+    /**
+     * Create collection resource file for needle module
+     * @return int
+     */
+    private function createResource()
+    {
+        try {
+            return $this->call('make:module-collection', [
+                'module' => $this->moduleName,
+                'name' => "{$this->resourceName}Resource",
             ]);
         } catch (\Exception $e) {
             $this->error($e->getMessage());

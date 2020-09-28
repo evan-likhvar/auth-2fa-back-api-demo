@@ -8,13 +8,13 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
 /**
- * Class SeedModuleMake
+ * Class CollectionModuleMake
  * @package App\Console\Commands
  *
  * @property Filesystem $files
  * @property ModularComponent $modularComponent
  */
-class SeedModuleMake extends Command
+class CollectionModuleMake extends Command
 {
     protected $modularComponent;
 
@@ -25,19 +25,19 @@ class SeedModuleMake extends Command
      *
      * @var string
      */
-    protected $signature = 'make:module-seed {module} {name}';
+    protected $signature = 'make:module-collection {module} {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Make seed file for module';
+    protected $description = 'Create collection file for module';
 
     /**
      * Create a new command instance.
      *
-     * SeedModuleMake constructor.
+     * CollectionModuleMake constructor.
      * @param Filesystem $files
      * @param ModularComponent $modularComponent
      */
@@ -55,32 +55,33 @@ class SeedModuleMake extends Command
      */
     public function handle()
     {
-        $this->createSeed();
+        $this->createCollection();
+
         return true;
     }
 
-    private function createSeed()
+    private function createCollection()
     {
         try {
             $module = trim($this->argument('module')); //module name
-            $requestModel = Str::singular(class_basename(trim($this->argument('name')))); // Якщо Blogs то Blog
-            $requestModel = ucfirst(Str::camel($requestModel));// request model name
+            $collectionModel = Str::singular(class_basename(trim($this->argument('name')))); // Якщо Blogs то Blog
+            $collectionModel = ucfirst(Str::camel($collectionModel));// request model name
 
-            $path = $this->getRequestPath($module, $requestModel);
+            $path = $this->getRequestPath($module, $collectionModel);
             $this->makeDirectory($path);
 
-            $stub = $this->files->get(base_path('resources/stubs/seed.stub'));
+            $stub = $this->files->get(base_path('resources/stubs/collection-resource.stub'));
 
             $stub = str_replace(
                 ['DummyNamespace', 'DummyClass'],
                 [
-                    "{$this->modularComponent->baseNamespace}\\{$module}\\Database\\Seeds",
-                    $requestModel,
+                    "{$this->modularComponent->baseNamespace}\\{$module}\\Http\\Resources",
+                    $collectionModel,
                 ],
                 $stub
             );
             $this->files->put($path, $stub);
-            $this->info('Seed created successfully.');
+            $this->info('Collection created successfully.');
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
@@ -97,11 +98,11 @@ class SeedModuleMake extends Command
     /**
      * Get Request model path
      * @param $module
-     * @param $requestModel
+     * @param $collectionModel
      * @return string
      */
-    private function getRequestPath($module, $requestModel)
+    private function getRequestPath($module, $collectionModel)
     {
-        return $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$module}/Database/Seeds/{$requestModel}.php";
+        return $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$module}/Http/Resources/{$collectionModel}.php";
     }
 }

@@ -2,7 +2,7 @@
 
 namespace components;
 
-use Route;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class ModularComponent

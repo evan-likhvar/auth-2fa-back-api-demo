@@ -2,21 +2,26 @@
 
 namespace App\Console\Commands;
 
+use components\ModularComponent;
 use Illuminate\Console\Command;
-use Str;
+use Illuminate\Support\Str;
 
 /**
  * Class ModelModuleMake
  * @package App\Console\Commands
+ *
+ * @property ModularComponent $modularComponent
  */
 class ModelModuleMake extends Command
 {
+    protected $modularComponent;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:module-model {module : Module name} {model : Model name}                        
+    protected $signature = 'make:module-model {module : Module name} {model : Model name}
                                                {--migration : Only migrate file}
                                                                                 ';
 
@@ -29,12 +34,13 @@ class ModelModuleMake extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
+     * ModelModuleMake constructor.
+     * @param ModularComponent $modularComponent
      */
-    public function __construct()
+    public function __construct(ModularComponent $modularComponent)
     {
         parent::__construct();
+        $this->modularComponent = $modularComponent;
     }
 
     /**
@@ -64,7 +70,7 @@ class ModelModuleMake extends Command
             $model = ucfirst (Str::camel($model));
 
             $this->call('make:model', [
-                'name' => "App\\Modules\\v1\\{$module}\\Models\\{$model}"
+                'name' => "{$this->modularComponent->baseNamespace}\\{$module}\\Models\\{$model}"
             ]);
         } catch (\Exception $e) {
             $e->getMessage();

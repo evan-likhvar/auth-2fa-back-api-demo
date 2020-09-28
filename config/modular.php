@@ -4,7 +4,7 @@ use components\ModularComponent;
 
 return [
     'path' => base_path('app/Modules'),
-    'base_namespace' => 'app\Modules\\' . ModularComponent::MODULE_VERSION,
+    'base_namespace' => 'App\Modules\\' . ModularComponent::MODULE_VERSION,
 
     /** Modules */
     'modules' => [

@@ -2,18 +2,22 @@
 
 namespace App\Console\Commands;
 
+use components\ModularComponent;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Str;
+use Illuminate\Support\Str;
 
 /**
  * Class RequestModuleMake
  * @package App\Console\Commands
  *
  * @property Filesystem $files
+ * @property ModularComponent $modularComponent
  */
 class RequestModuleMake extends Command
 {
+    protected $modularComponent;
+
     protected $files;
 
     /**
@@ -31,14 +35,15 @@ class RequestModuleMake extends Command
     protected $description = 'Make request file for module';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
+     * RequestModuleMake constructor.
+     * @param Filesystem $files
+     * @param ModularComponent $modularComponent
      */
-    public function __construct(Filesystem $files)
+    public function __construct(Filesystem $files, ModularComponent $modularComponent)
     {
         parent::__construct();
         $this->files = $files;
+        $this->modularComponent = $modularComponent;
     }
 
     /**
@@ -70,7 +75,7 @@ class RequestModuleMake extends Command
             $stub = str_replace(
                 ['DummyNamespace', 'DummyClass'],
                 [
-                    "App\\Modules\\v1\\{$module}\\Http\\Requests",
+                    "{$this->modularComponent->baseNamespace}\\{$module}\\Http\\Requests",
                     $requestModel,
                 ],
                 $stub
@@ -98,6 +103,6 @@ class RequestModuleMake extends Command
      */
     private function getRequestPath($module, $requestModel)
     {
-        return $this->laravel['path'] . "/Modules/v1/{$module}/Http/Requests/{$requestModel}.php";
+        return $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$module}/Http/Requests/{$requestModel}.php";
     }
 }

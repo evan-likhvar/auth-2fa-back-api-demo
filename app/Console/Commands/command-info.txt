@@ -19,3 +19,7 @@ php artisan make:module-request TestModule  TestsRequest ------ create request f
 
 Seeders
 php artisan make:module-seed TestModule TestSeeder ------ create seeder file
+
+Resource
+php artisan make:module-collection TestModule TestCollectionResource ------ create seeder file
+

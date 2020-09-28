@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use components\ModularComponent;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -46,7 +47,8 @@ class MigrationModuleMake extends Command
      */
     public function handle()
     {
-        return $this->createMigration();
+        $this->createMigration();
+        return true;
     }
 
     /**
@@ -55,7 +57,7 @@ class MigrationModuleMake extends Command
     private function createMigration()
     {
         $moduleName = trim($this->argument('module'));
-        $migrationPath = "app/Modules/v1/{$moduleName}/Database/Migrations";
+        $migrationPath = "app/Modules/" . ModularComponent::MODULE_VERSION . "/{$moduleName}/Database/Migrations";
 
         $table = Str::snake(class_basename($this->argument('table')));
         $table = Str::plural($table);
