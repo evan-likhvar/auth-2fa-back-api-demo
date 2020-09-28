@@ -8,9 +8,10 @@ return [
 
     /** Modules */
     'modules' => [
-        'v1' => [
+        ModularComponent::MODULE_VERSION => [
             'Settings',
-            'TestModule'
+            'TestModule',
+            'TestModule3',
         ]
     ]
 ];

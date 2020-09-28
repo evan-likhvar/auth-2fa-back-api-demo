@@ -3,13 +3,14 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
+/**
+ * Class MigrationModuleMake
+ * @package App\Console\Commands
+ */
 class MigrationModuleMake extends Command
 {
-    protected $files;
-
     /**
      * The name and signature of the console command.
      *
@@ -45,18 +46,21 @@ class MigrationModuleMake extends Command
      */
     public function handle()
     {
-        $this->createMigration();
+        return $this->createMigration();
     }
 
+    /**
+     * Create migration file
+     */
     private function createMigration()
     {
         $moduleName = trim($this->argument('module'));
-        $migrationPath = "app/Modules/v1/{$moduleName}/migrations";
+        $migrationPath = "app/Modules/v1/{$moduleName}/Database/Migrations";
 
         $table = Str::snake(class_basename($this->argument('table')));
         $table = Str::plural($table);
 
-        $migrationName = Str::lower(trim($this->argument('migrationName'))) .'_'. time();
+        $migrationName = Str::lower(trim($this->argument('migrationName')));// . '_' . time();
 
         try {
             $this->call('make:migration', [

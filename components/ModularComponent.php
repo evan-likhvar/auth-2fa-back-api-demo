@@ -59,6 +59,10 @@ class ModularComponent
         return true;
     }
 
+    /**
+     * Return module migration paths
+     * @return array
+     */
     public function loadMigrationFromModules()
     {
         $paths = [];
@@ -69,9 +73,18 @@ class ModularComponent
         $modules = $modulesCollection->get(self::MODULE_VERSION);
 
         foreach ($modules as $key => $moduleName) {
-            $paths[] = $this->path . DIRECTORY_SEPARATOR . self::MODULE_VERSION . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'migrations';
+            $paths[] = $this->path . DIRECTORY_SEPARATOR . self::MODULE_VERSION . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'Database' . DIRECTORY_SEPARATOR . 'Migrations';
         }
 
         return $paths;
+    }
+
+    /**
+     * Get config modules
+     * @return mixed
+     */
+    public function getModules()
+    {
+        return $this->modules[self::MODULE_VERSION];
     }
 }

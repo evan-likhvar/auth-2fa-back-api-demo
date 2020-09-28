@@ -20,16 +20,11 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
+     * @param ModularComponent $modularComponent
      * @return void
      */
     public function boot(ModularComponent $modularComponent)
     {
-//        dd(__DIR__.'/../Modules/v1/test_modules');
-//        dd($modularComponent->loadMigrationFromModules());
         $this->loadMigrationsFrom($modularComponent->loadMigrationFromModules());
-//        $this->loadMigrationsFrom([
-//            __DIR__.'..'.DIRECTORY_SEPARATOR.'Modules'.DIRECTORY_SEPARATOR.'v1'.DIRECTORY_SEPARATOR.'test_modules',
-//            database_path().DIRECTORY_SEPARATOR.'migrations',
-//        ]);
     }
 }

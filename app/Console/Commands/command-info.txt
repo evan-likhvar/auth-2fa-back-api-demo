@@ -1,0 +1,21 @@
+Create module with custom params
+php artisan make:module TestModule ------ create module folder
+php artisan make:module TestModule Test --all
+php artisan make:module TestModule Test --model --migration --controller --request
+
+Model
+php artisan make:module-model TestModule test2 --migration ------ create model with migration
+php artisan make:module-model TestModule test2 ------ create only model
+
+Migration
+php artisan make:module-migration TestModule create_test_table test ------ create create_test_table migration for test table
+
+Resource Controller
+php artisan make:module-controller TestModule TestController TestModel ------ with model
+php artisan make:module-controller TestModule TestController ------ only controller
+
+Request
+php artisan make:module-request TestModule  TestsRequest ------ create request file
+
+Seeders
+php artisan make:module-seed TestModule TestSeeder ------ create seeder file
