@@ -113,4 +113,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new ResetUserPassword($token));
     }
+
+    public function shops()
+    {
+        return $this->hasMany(
+            'App\Modules\v1\UserShopModule\Models\UserShop',
+            'user_id',
+            'id'
+        );
+    }
 }

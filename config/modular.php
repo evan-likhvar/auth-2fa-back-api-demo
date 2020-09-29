@@ -1,5 +1,7 @@
 <?php
 
+//use components\ModularComponent;
+
 use components\ModularComponent;
 
 return [
@@ -12,6 +14,7 @@ return [
             'Settings',
             'TestModule',
             'TestModule3',
+            'UserShopModule',
         ]
     ]
 ];

@@ -77,7 +77,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-            ->middleware(['api'])
+            ->middleware(['api']);
         Route::prefix('rest-api')
             ->middleware(['api','api.responseHeaders'])
             ->namespace($this->namespace)
