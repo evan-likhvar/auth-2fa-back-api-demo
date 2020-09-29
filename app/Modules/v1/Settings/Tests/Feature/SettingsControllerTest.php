@@ -11,7 +11,6 @@ class SettingsControllerTest extends TestCase
     {
         $response = $this->getJson('/v1/settings');
         $content = json_decode($response->getContent());
-        dd($content);
         $response->assertStatus(200);
         $this->assertIsArray($content);
     }
