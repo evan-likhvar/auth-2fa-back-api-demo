@@ -48,7 +48,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        $this->mapModuleRoutes(); // register modules routes
+        $this->mapWebModuleRoutes(); // register web modules routes
+        $this->mapApiModuleRoutes(); // register api modules routes
     }
 
     /**
@@ -81,11 +82,11 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register module routes
+     * Register api module routes
      *
      * @return void
      */
-    protected function mapModuleRoutes()
+    protected function mapApiModuleRoutes()
     {
         $modular = new ModularComponent();
 
@@ -93,7 +94,22 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware(['api', 'api.responseHeaders'])
             ->namespace($modular::CONTROLLER_NAMESPACE)
             ->group(function () use ($modular) {
-                $modular->registerRoutes();
+                return $modular->registerRoutes('api');
+            });
+    }
+
+    /**
+     * Register web module routes
+     *
+     * @return void
+     */
+    protected function mapWebModuleRoutes()
+    {
+        $modular = new ModularComponent();
+        Route::middleware('web')
+            ->namespace($modular::CONTROLLER_NAMESPACE)
+            ->group(function () use ($modular) {
+                return $modular->registerRoutes('web');
             });
     }
 }

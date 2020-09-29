@@ -7,7 +7,9 @@ use Illuminate\Support\Str;
 trait ModuleMakeTrait
 {
     /**
-     * Example - php artisan make:module ModuleName\ModelName --model
+     * Example - php artisan make:module ModuleName ResourceName --model
+     *
+     * Create model for module
      */
     private function createModel()
     {
@@ -24,6 +26,8 @@ trait ModuleMakeTrait
     }
 
     /**
+     * Example - php artisan make:module ModuleName ResourceName --migration
+     *
      * Create migration file
      * @return int
      */
@@ -43,6 +47,8 @@ trait ModuleMakeTrait
     }
 
     /**
+     * Example - php artisan make:module ModuleName ResourceName --controller
+     *
      * Create controller resource
      * @return int
      */
@@ -59,6 +65,8 @@ trait ModuleMakeTrait
     }
 
     /**
+     * Example - php artisan make:module ModuleName ResourceName --request
+     *
      * Create request file for needle module
      * @return int
      */
@@ -75,6 +83,8 @@ trait ModuleMakeTrait
     }
 
     /**
+     * Example - php artisan make:module ModuleName ResourceName --seed
+     *
      * Create seed file for needle module
      * @return int
      */
@@ -91,6 +101,8 @@ trait ModuleMakeTrait
     }
 
     /**
+     * Example - php artisan make:module ModuleName ResourceName --resource
+     *
      * Create collection resource file for needle module
      * @return int
      */
@@ -107,6 +119,8 @@ trait ModuleMakeTrait
     }
 
     /**
+     * Example - php artisan make:module ModuleName ResourceName --mail
+     *
      * Create collection resource file for needle module
      * @return int
      */

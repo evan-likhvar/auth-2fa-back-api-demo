@@ -1,7 +1,7 @@
 Create module with custom params
 php artisan make:module TestModule ------ create module folder
 php artisan make:module TestModule Test --all
-php artisan make:module TestModule Test --model --migration --controller --request
+php artisan make:module TestModule Test --model --migration --controller --request --seed --resource --mail
 
 Model
 php artisan make:module-model TestModule test2 --migration ------ create model with migration

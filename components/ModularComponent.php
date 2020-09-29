@@ -34,10 +34,12 @@ class ModularComponent
     }
 
     /**
-     * Register modules routes
+     * Register modules routes (web, api)
+     *
+     * @param string $routeView
      * @return bool
      */
-    public function registerRoutes()
+    public function registerRoutes($routeView = 'web')
     {
         if (!$this->modules) {
             return false;
@@ -48,7 +50,7 @@ class ModularComponent
                     $subModule = $key;
                 }
                 $relativePath = '/' . $module . '/' . $subModule;
-                $routePath = $this->path . $relativePath . "/Routes/web.php";
+                $routePath = $this->path . $relativePath . "/Routes/{$routeView}.php";
 
                 if (file_exists($routePath)) {
                     Route::namespace("Modules\\$module\\$subModule\\Http\\Controllers")->group($routePath);
@@ -59,19 +61,22 @@ class ModularComponent
         return true;
     }
 
-    public function loadViewsFromModules()
+    /**
+     * Register components blade views
+     * @return array
+     */
+    public function registerViews()
     {
-        //TODO REGISTERING BLADE TEMPLATES INSIDE MODULE
-//        $paths = [];
-//        if (!$this->modules) {
-//            return $paths;
-//        }
-////        dd($this->baseNamespace);
-//        $modulesCollection = collect($this->modules);
-//        $modules = $modulesCollection->get(self::MODULE_VERSION);
-//        foreach ($modules as $module) {
-//            \View::getFinder()->addLocation();
-//        }
+        $paths = [];
+        if (!$this->modules) {
+            return $paths;
+        }
+
+        $modulesCollection = collect($this->modules);
+        $activeModules = $modulesCollection->get(self::MODULE_VERSION);
+        foreach ($activeModules as $module) {
+            \View::getFinder()->addLocation(base_path("App\\Modules\\" . self::MODULE_VERSION . "\\{$module}\\Resources\\Views"));
+        }
 
     }
 
@@ -86,9 +91,9 @@ class ModularComponent
             return $paths;
         }
         $modulesCollection = collect($this->modules);
-        $modules = $modulesCollection->get(self::MODULE_VERSION);
+        $activeModules = $modulesCollection->get(self::MODULE_VERSION);
 
-        foreach ($modules as $key => $moduleName) {
+        foreach ($activeModules as $key => $moduleName) {
             $paths[] = $this->path . DIRECTORY_SEPARATOR . self::MODULE_VERSION . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'Database' . DIRECTORY_SEPARATOR . 'Migrations';
         }
 
