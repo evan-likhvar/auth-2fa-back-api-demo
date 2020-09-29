@@ -135,4 +135,22 @@ trait ModuleMakeTrait
             $this->error($e->getMessage());
         }
     }
+
+    /**
+     * Example - php artisan make:module ModuleName ResourceName --test
+     *
+     * Create test file for needle module
+     * @return int
+     */
+    private function createTest()
+    {
+        try {
+            return $this->call('make:module-test', [
+                'module' => $this->moduleName,
+                'name' => "{$this->resourceName}Test",
+            ]);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
+    }
 }
