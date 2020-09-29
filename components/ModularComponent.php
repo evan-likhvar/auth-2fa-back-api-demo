@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 class ModularComponent
 {
     /** Modules version */
-    public const MODULE_VERSION = 'v1';
+    public const MODULE_VERSION = 'v2';
     public const CONTROLLER_NAMESPACE = 'App';
 
     /** Modules array */
@@ -57,6 +57,22 @@ class ModularComponent
         }
 
         return true;
+    }
+
+    public function loadViewsFromModules()
+    {
+        //TODO REGISTERING BLADE TEMPLATES INSIDE MODULE
+//        $paths = [];
+//        if (!$this->modules) {
+//            return $paths;
+//        }
+////        dd($this->baseNamespace);
+//        $modulesCollection = collect($this->modules);
+//        $modules = $modulesCollection->get(self::MODULE_VERSION);
+//        foreach ($modules as $module) {
+//            \View::getFinder()->addLocation();
+//        }
+
     }
 
     /**
