@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 class ModularComponent
 {
     /** Modules version */
-    public const MODULE_VERSION = 'v2';
+    public const MODULE_VERSION = 'v1';
     public const CONTROLLER_NAMESPACE = 'App';
 
     /** Modules array */
