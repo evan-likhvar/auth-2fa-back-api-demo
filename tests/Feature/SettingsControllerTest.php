@@ -12,7 +12,6 @@ class SettingsControllerTest extends TestCase
         $response = $this->getJson('/rest-api/settings');
 
         $content = json_decode($response->getContent());
-
         $response->assertStatus(200);
         $this->assertIsArray($content);
     }

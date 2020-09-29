@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace DummyNamespace;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SettingsUpdateRequest extends FormRequest
+class DummyClass extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class SettingsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,11 +24,7 @@ class SettingsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:100',
-            'value' => 'required|string|max:255',
-            'default_value' => 'nullable|string|max:255',
-            'description' => 'nullable|string|max:255',
-            'type_id' => 'required|integer|exists:value_types,id'
+            //
         ];
     }
 }
