@@ -1,8 +1,8 @@
 <?php
 
+use App\Modules\v1\Settings\Database\Seeds\SettingsSeeder;
+use App\Modules\v1\Settings\Database\Seeds\ValueTypeSeeder;
 use App\Modules\v1\UserShopModule\Database\Seeds\UserShopTypeSeeder;
-use Database\Seeders\SettingsSeeder;
-use Database\Seeders\ValueTypeSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
