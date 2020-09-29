@@ -68,6 +68,13 @@ class RequestModuleMake extends Command
             $requestModel = ucfirst(Str::camel($requestModel));// request model name
 
             $path = $this->getRequestPath($module, $requestModel);
+
+            if ($this->files->exists($path)) {
+                $this->error("{$requestModel} is exist in {$path}");
+
+                return false;
+            }
+
             $this->makeDirectory($path);
 
             $stub = $this->files->get(base_path('resources/stubs/request.stub'));

@@ -74,8 +74,13 @@ class ControllerModuleMake extends Command
                 Str::studly(class_basename(trim($this->argument('controller'))))
             );//controller name
             $model = $this->getModel(); //model name
-
             $path = $this->getControllerPath($module, $controller);
+
+            if ($this->files->exists($path)) {
+                $this->error("{$controller} is exist in {$path}");
+
+                return false;
+            }
 
             $this->makeDirectory($path);
 
