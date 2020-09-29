@@ -16,6 +16,7 @@ return [
     */
 
     'paths' => ['rest-api/*'],
+//    'paths' => ['*','rest-api/*'],
 
     'allowed_methods' => ['*'],
 

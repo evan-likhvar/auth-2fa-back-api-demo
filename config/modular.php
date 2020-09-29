@@ -11,7 +11,8 @@ return [
         ModularComponent::MODULE_VERSION => [
             'Settings',
             'TestModule',
-            'TestModule2',
+            'TestModule3',
+            'UserShopModule',
         ]
     ]
 ];

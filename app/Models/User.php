@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetUserPassword;
+use App\Notifications\VerifyUserEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +22,10 @@ use Laravel\Passport\HasApiTokens;
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
+ * @property string|null $google2fa_enable
+ * @property string|null $google2fa_secret
+ * @property string|null $google2fa_login_otp
+ * @property string|null $google2fa_login_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $sms_verify
@@ -66,7 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'last_name'
     ];
 
     /**
@@ -86,4 +92,34 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyUserEmail);
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetUserPassword($token));
+    }
+
+    public function shops()
+    {
+        return $this->hasMany(
+            'App\Modules\v1\UserShopModule\Models\UserShop',
+            'user_id',
+            'id'
+        );
+    }
 }
