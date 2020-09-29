@@ -5,14 +5,14 @@ namespace App\Modules\v1\Settings\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\ValueType
+ * App\Modules\v1\Settings\Models\ValueType
  *
  * @property int $id
  * @property string $value_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read Settings $settings
+ * @property-read Setting $settings
  * @method static \Illuminate\Database\Eloquent\Builder|ValueType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ValueType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ValueType query()
@@ -30,6 +30,6 @@ class ValueType extends Model
 
     public function settings()
     {
-        return $this->belongsTo(Settings::class,'type_id','id');
+        return $this->belongsTo(Setting::class,'type_id','id');
     }
 }

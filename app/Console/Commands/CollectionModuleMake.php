@@ -68,6 +68,13 @@ class CollectionModuleMake extends Command
             $collectionModel = ucfirst(Str::camel($collectionModel));// request model name
 
             $path = $this->getRequestPath($module, $collectionModel);
+
+            if ($this->files->exists($path)) {
+                $this->error("{$collectionModel} is exist in {$path}");
+
+                return false;
+            }
+
             $this->makeDirectory($path);
 
             $stub = $this->files->get(base_path('resources/stubs/collection-resource.stub'));

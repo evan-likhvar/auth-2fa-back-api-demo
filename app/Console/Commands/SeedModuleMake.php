@@ -63,10 +63,17 @@ class SeedModuleMake extends Command
     {
         try {
             $module = trim($this->argument('module')); //module name
-            $requestModel = Str::singular(class_basename(trim($this->argument('name')))); // Якщо Blogs то Blog
-            $requestModel = ucfirst(Str::camel($requestModel));// request model name
+            $seederModel = Str::singular(class_basename(trim($this->argument('name')))); // Якщо Blogs то Blog
+            $seederModel = ucfirst(Str::camel($seederModel));// request model name
 
-            $path = $this->getRequestPath($module, $requestModel);
+            $path = $this->getRequestPath($module, $seederModel);
+
+            if ($this->files->exists($path)) {
+                $this->error("{$seederModel} is exist in {$path}");
+
+                return false;
+            }
+
             $this->makeDirectory($path);
 
             $stub = $this->files->get(base_path('resources/stubs/seed.stub'));
@@ -75,7 +82,7 @@ class SeedModuleMake extends Command
                 ['DummyNamespace', 'DummyClass'],
                 [
                     "{$this->modularComponent->baseNamespace}\\{$module}\\Database\\Seeds",
-                    $requestModel,
+                    $seederModel,
                 ],
                 $stub
             );
@@ -97,11 +104,11 @@ class SeedModuleMake extends Command
     /**
      * Get Request model path
      * @param $module
-     * @param $requestModel
+     * @param $seederModel
      * @return string
      */
-    private function getRequestPath($module, $requestModel)
+    private function getRequestPath($module, $seederModel)
     {
-        return $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$module}/Database/Seeds/{$requestModel}.php";
+        return $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$module}/Database/Seeds/{$seederModel}.php";
     }
 }
