@@ -45,9 +45,8 @@ class ModuleMake extends Command
                                         {--seed : Only Seed}
                                         {--resource : Only collection resource}
                                         {--mail : Only mail}
+                                        {--test : Only Test (Feature tests)}
                                         ';
-
-//{--test : Only view}
     /**
      * The console command description.
      *
@@ -93,6 +92,7 @@ class ModuleMake extends Command
             $this->input->setOption('seed', true);
             $this->input->setOption('resource', true);
             $this->input->setOption('mail', true);
+            $this->input->setOption('test', true);
         }
 
 
@@ -145,6 +145,13 @@ class ModuleMake extends Command
             $this->createMail();
         }
 
+        if ($this->option('test')) {
+            if (!$this->checkResourceParam()) {
+                return false;
+            }
+            $this->createTest();
+        }
+
         $this->makeModule(); // make default module structure
         $this->call('route:clear'); //clear route cache
 
@@ -159,29 +166,35 @@ class ModuleMake extends Command
     private function makeModule()
     {
         $modulePath = $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$this->moduleName}";
-        $this->files->makeDirectory(
-            $modulePath,
-            0777,
-            true,
-            true
-        ); // make module directory
-        $this->files->makeDirectory(
-            $modulePath . '/Resources/Views',
-            0777,
-            true,
-            true
-        ); // make views directory
-        $this->files->makeDirectory(
-            $modulePath . '/Routes',
-            0777,
-            true,
-            true
-        ); // make routes directory
+
+        $this->makeDirectory($modulePath); // make module directory
+
+        $this->makeDirectory($modulePath . '/Resources/Views'); // make views directory
+
+        $this->makeDirectory($modulePath . '/Tests/Feature');  // make feature tests directory
+
+        $this->makeDirectory($modulePath . '/Tests/Unit');  // make unit tests directory
+
+        $this->makeDirectory($modulePath . '/Routes');  // make routes directory
 
         $this->files->put($modulePath . '/Routes/web.php', ''); // make web.php file for web routes
         $this->files->put($modulePath . '/Routes/api.php', ''); // make api.php file for api routes
 
         return true;
+    }
+
+
+    /**
+     * @param String $path
+     */
+    private function makeDirectory(String $path): void
+    {
+        $this->files->makeDirectory(
+            $path,
+            0777,
+            true,
+            true
+        );
     }
 
     /**
