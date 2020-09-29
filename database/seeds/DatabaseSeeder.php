@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PermissionsSeeder::class,
             ValueTypeSeeder::class,
             SettingsSeeder::class,
+            OauthClientsSeeder::class,
         ]);
     }
 }
