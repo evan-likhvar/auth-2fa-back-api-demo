@@ -1,7 +1,5 @@
 <?php
 
-//use components\ModularComponent;
-
 use components\ModularComponent;
 
 return [

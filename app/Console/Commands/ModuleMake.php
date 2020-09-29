@@ -47,7 +47,6 @@ class ModuleMake extends Command
                                         {--mail : Only mail}
                                         ';
 
-//{--view : Only view}
 //{--test : Only view}
     /**
      * The console command description.
@@ -146,12 +145,41 @@ class ModuleMake extends Command
             $this->createMail();
         }
 
+        $this->makeModule(); // make default module structure
+        $this->call('route:clear'); //clear route cache
+
+        $this->info('Module successfully created!!!');
+
+        return true;
+    }
+
+    /**
+     * Make default module folders,files
+     */
+    private function makeModule()
+    {
+        $modulePath = $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$this->moduleName}";
         $this->files->makeDirectory(
-            $this->laravel['path'] . "/Modules/" . ModularComponent::MODULE_VERSION . "/{$this->moduleName}",
+            $modulePath,
             0777,
             true,
             true
-        );
+        ); // make module directory
+        $this->files->makeDirectory(
+            $modulePath . '/Resources/Views',
+            0777,
+            true,
+            true
+        ); // make views directory
+        $this->files->makeDirectory(
+            $modulePath . '/Routes',
+            0777,
+            true,
+            true
+        ); // make routes directory
+
+        $this->files->put($modulePath . '/Routes/web.php', ''); // make web.php file for web routes
+        $this->files->put($modulePath . '/Routes/api.php', ''); // make api.php file for api routes
 
         return true;
     }
