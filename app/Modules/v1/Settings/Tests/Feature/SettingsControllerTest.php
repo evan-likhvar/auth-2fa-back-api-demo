@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace App\Modules\v1\Settings\Tests\Feature;
 
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -56,5 +56,4 @@ class SettingsControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertIsObject($content);
     }
-
 }

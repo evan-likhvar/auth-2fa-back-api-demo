@@ -3,6 +3,7 @@
 namespace DummyNamespace;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DummyClass extends Seeder
 {
