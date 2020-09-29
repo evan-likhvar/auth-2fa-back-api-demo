@@ -25,10 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(ModularComponent $modularComponent)
     {
-//        dd(base_path('app\modules\v1\TestModule\Resources\Views'));
-//        dd(resource_path('app\modules'));
-//        dd($modularComponent->loadViewsFromModules());
-//        \View::getFinder()->addLocation(base_path('app\modules\v1\TestModule\Resources\Views'));  //TODO REGISTERING BLADE TEMPLATES INSIDE MODULE
+        $modularComponent->registerViews();//register components blade views from modules
         $this->loadMigrationsFrom($modularComponent->loadMigrationFromModules()); //register migration from modules
     }
 }
