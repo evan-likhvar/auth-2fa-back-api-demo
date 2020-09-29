@@ -4,7 +4,9 @@ namespace App\Modules\v1\UserShopModule\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * @method static UserShop create(array $fields)
+ */
 class UserShop extends Model
 {
     use HasFactory;

@@ -4,7 +4,7 @@ namespace App\Modules\v1\UserShopModule\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserShopStoreRequest extends FormRequest
+class UserShopRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UserShopStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,8 @@ class UserShopStoreRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'integer', 'exists:users,id'],
-            'shop_type_id' => ['required', 'integer', 'exists:user_shop_types,id']
+            'shop_type_id' => ['required', 'integer', 'exists:user_shop_types,id'],
+            'name' => ['nullable', 'string', 'max:255'],
         ];
     }
 }
