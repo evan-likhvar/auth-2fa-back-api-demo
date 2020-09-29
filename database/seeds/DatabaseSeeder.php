@@ -1,7 +1,7 @@
 <?php
 
-use Database\Seeders\SettingsSeeder;
-use Database\Seeders\ValueTypeSeeder;
+use App\Modules\v1\Settings\Database\Seeds\SettingsSeeder;
+use App\Modules\v1\Settings\Database\Seeds\ValueTypeSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
