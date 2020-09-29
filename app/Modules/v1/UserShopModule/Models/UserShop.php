@@ -9,6 +9,8 @@ class UserShop extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'shop_type_id', 'name'];
+
     public function type()
     {
         return $this->belongsTo(
