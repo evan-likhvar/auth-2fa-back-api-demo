@@ -67,9 +67,15 @@ class MailModuleMake extends Command
             $mailModel = ucfirst(Str::camel($mailModel));// request model name
 
             $path = $this->getRequestPath($module, $mailModel);
-            $this->makeDirectory($path);
+
+            if ($this->files->exists($path)) {
+                $this->error("{$mailModel} is exist in {$path}");
+
+                return false;
+            }
 
             $stub = $this->files->get(base_path('resources/stubs/mail.stub'));
+            $this->makeDirectory($path);
 
             $stub = str_replace(
                 ['DummyNamespace', 'DummyClass'],

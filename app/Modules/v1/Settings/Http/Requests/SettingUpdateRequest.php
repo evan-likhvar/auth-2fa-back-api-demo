@@ -4,7 +4,7 @@ namespace App\Modules\v1\Settings\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SettingsUpdateRequest extends FormRequest
+class SettingUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

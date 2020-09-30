@@ -83,6 +83,12 @@ class TestModuleMake extends Command
 
             $path = $this->getTestPath($module, 'Unit', $testName);
 
+            if ($this->files->exists($path)) {
+                $this->error("{$testName} is exist in {$path}");
+
+                return false;
+            }
+
             $this->makeDirectory($path);
 
             $stub = $this->files->get(base_path('resources/stubs/tests/unit-test.stub'));
@@ -115,6 +121,13 @@ class TestModuleMake extends Command
             );//test file name
 
             $path = $this->getTestPath($module, 'Feature', $testName);
+
+
+            if ($this->files->exists($path)) {
+                $this->error("{$testName} is exist in {$path}");
+
+                return false;
+            }
 
             $this->makeDirectory($path);
 

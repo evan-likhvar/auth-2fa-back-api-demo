@@ -3,9 +3,9 @@
 namespace App\Modules\v1\Settings\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\v1\Settings\Http\Requests\SettingsStoreRequest;
-use App\Modules\v1\Settings\Http\Requests\SettingsUpdateRequest;
-use App\Modules\v1\Settings\Models\Settings;
+use App\Modules\v1\Settings\Http\Requests\SettingStoreRequest;
+use App\Modules\v1\Settings\Http\Requests\SettingUpdateRequest;
+use App\Modules\v1\Settings\Models\Setting;
 
 class SettingsController extends Controller
 {
@@ -16,29 +16,29 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        return response()->json(Settings::with('valueType')->get());
+        return response()->json(Setting::with('valueType')->get());
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param SettingsStoreRequest $request
+     * @param SettingStoreRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(SettingsStoreRequest $request)
+    public function store(SettingStoreRequest $request)
     {
-        $setting = Settings::create($request->all());
+        $setting = Setting::create($request->all());
         return response()->json($setting->load('valueType'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Settings $setting
+     * @param Setting $setting
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Settings $setting)
+    public function show(Setting $setting)
     {
         return response()->json($setting->load('valueType'));
     }
@@ -47,10 +47,10 @@ class SettingsController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Settings $setting
+     * @param Setting $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(SettingsUpdateRequest $request, Settings $setting)
+    public function update(SettingUpdateRequest $request, Setting $setting)
     {
         $sameSetting = $setting::where('name', '=', $request->input('name'))->whereKeyNot($setting->id)->exists();
         if ($sameSetting) {
@@ -63,11 +63,11 @@ class SettingsController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param Settings $setting
+     * @param Setting $setting
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Settings $setting)
+    public function destroy(Setting $setting)
     {
         if (!$setting->delete()) return response(null, 204);
     }
