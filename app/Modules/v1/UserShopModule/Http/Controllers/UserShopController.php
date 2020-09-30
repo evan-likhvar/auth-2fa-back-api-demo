@@ -2,16 +2,29 @@
 
 namespace App\Modules\v1\UserShopModule\Http\Controllers;
 
+use App\Models\User;
 use App\Modules\v1\UserShopModule\Http\Requests\UserShopRequest;
 use App\Modules\v1\UserShopModule\Models\UserShop;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserShopController extends Controller
 {
+    /**
+     * @var User|Authenticatable|null
+     */
+    private $user;
+
     public function __construct()
     {
         $this->middleware('auth:api');
+
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            return $next($request);
+        });
     }
 
     /**
